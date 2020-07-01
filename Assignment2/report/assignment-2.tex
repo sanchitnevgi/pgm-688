@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[left=10mm,right=10mm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{siunitx}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption}
+% \usepackage{tikz}
+
+% Refererencing
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+
+\microtypecontext{spacing=nonfrench}
+
+\graphicspath{ {./images/} }
+
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 4, % to 2 places
+}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\derivative}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\suml}[2]{\sum\limits_{#1}^{#2}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\rhead{\thepage}
+\lhead{Assignment 2}
+
+\begin{document}
+\title{\textbf{\huge{Title}}}
+
+\date{\today}
+\author{Sanchit Nevgi}
+% If you need a big title
+% \maketitle
+
+\section{Exhaustive Inference}
+
+\subsection{Test word node potential}
+
+\begin{table}[H]
+    \caption{Feature potentials for $test\_word\_1$}
+    \centering
+    \begin{tabular}{l*{10}{@{}S}@{}}
+        \toprule
+        \multicolumn{10}{c}{Categories}                                                                            \\
+        \cmidrule(l){2-11}
+          & 0        & 1       & 2        & 3        & 4        & 5        & 6        & 7       & 8      & 9       \\
+        \midrule
+        1 & -7.6443  & 18.4683 & -6.3285  & 10.4224  & -4.9671  & -1.9340  & -0.9451  & -5.6571 & 5.3952 & -6.8098 \\
+        2 & -4.0744  & 5.7448  & 1.1763   & -1.7931  & -1.2122  & -1.7848  & -8.2998  & 3.0951  & 6.8065 & 0.3416  \\
+        3 & -10.2081 & 0.8973  & 17.1910  & -12.0176 & 5.5793   & -0.5940  & -21.4263 & 9.1489  & 9.4824 & 1.9471  \\
+        4 & 6.4648   & 24.5312 & -13.3429 & 5.8712   & -10.9548 & -11.4964 & -5.4946  & -7.1956 & 8.0456 & 3.5714  \\
+        \bottomrule
+    \end{tabular}
+    \label{table:mr}
+\end{table}
+
+\subsection{Energy Calculation}
+
+\begin{table}[H]
+    \caption{Energy for $test\_word_i$}
+    \centering
+    \begin{tabular}{cS}
+        \toprule
+        \multicolumn{1}{c}{Test Word} & \multicolumn{1}{c}{Energy} \\
+        \midrule
+        1                             & 63.979336                  \\
+        2                             & 89.61093                   \\
+        3                             & 96.940634                  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Log Partition function}
+
+\begin{table}[H]
+    \caption{Log Partition for $test\_word_i$}
+    \centering
+    \begin{tabular}{cS}
+        \toprule
+        \multicolumn{1}{c}{Test Word} & \multicolumn{1}{c}{Log Partition} \\
+        \midrule
+        1                             & 67.60187580368476                 \\
+        2                             & 89.61441557515604                 \\
+        3                             & 103.52757237511717                \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Most Likely labels}
+
+\begin{table}[H]
+    \caption{Most Likely labels for $test\_word_i$}
+    \centering
+    \begin{tabular}{ccS}
+        \toprule
+        Test Word & Word  & \multicolumn{1}{c}{Probabitliy} \\
+        \midrule
+        1         & trat  & 0.7958187630401371              \\
+        2         & hire  & 0.9965204924093368              \\
+        3         & riser & 0.9370071414912935              \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Marginal Label Probabilities}
+
+\begin{table}[H]
+    \caption{Marginal label probabilities $test\_word_i$}
+    \centering
+    \begin{tabular}{@{}c@{}S@{}S@{}S@{}S@{}}
+        \toprule
+        \multicolumn{1}{c}{Category} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{4} \\
+        \midrule
+        0                            & 7.22268182e-12        & 1.26583711e-05        & 1.13213821e-12        & 8.86828033e-09        \\
+        1                            & 9.99524645e-01        & 1.72473165e-01        & 2.29451201e-08        & 9.99999919e-01        \\
+        2                            & 2.62616683e-11        & 2.73136691e-03        & 9.99458877e-01        & 2.13566003e-17        \\
+        3                            & 4.72721273e-04        & 1.75283394e-04        & 1.61185516e-13        & 7.40542921e-09        \\
+        4                            & 7.15554575e-11        & 2.00735648e-04        & 3.69756698e-06        & 3.29004119e-16        \\
+        5                            & 2.11384828e-09        & 1.40047474e-04        & 1.76109354e-08        & 1.44100307e-16        \\
+        6                            & 3.29598967e-09        & 1.06460709e-07        & 5.17214285e-18        & 5.37109230e-14        \\
+        7                            & 4.34926966e-11        & 2.67352876e-02        & 2.83525328e-04        & 1.31780714e-14        \\
+        8                            & 2.62808981e-06        & 7.96595064e-01        & 2.53764930e-04        & 6.39397930e-08        \\
+        9                            & 1.06936989e-11        & 9.36285224e-04        & 9.46377346e-08        & 6.37362801e-10        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\clearpage
+\section{Sum-Product Message Passing}
+
+\subsection{Log message values}
+
+\begin{table}[H]
+    \caption{Message values in log-space}
+    \centering
+    \begin{tabular}{cSSSS}
+        \toprule
+          & \multicolumn{1}{c}{$m_{1 \rightarrow 2}(Y_2)$} & \multicolumn{1}{c}{$m_{2 \rightarrow 1}(Y_1)$} & \multicolumn{1}{c}{$m_{2 \rightarrow 3}(Y_3)$} & \multicolumn{1}{c}{$m_{3 \rightarrow 2}(Y_2)$} \\
+        \midrule
+        e & 18.589345                                      & 49.592435                                      & 25.651079                                      & 41.809822                                      \\
+        t & 17.815295                                      & 49.133020                                      & 25.236859                                      & 42.284232                                      \\
+        a & 18.749373                                      & 49.567530                                      & 25.598383                                      & 41.773180                                      \\
+        i & 18.522734                                      & 49.522377                                      & 25.577943                                      & 42.223158                                      \\
+        n & 18.180753                                      & 49.208489                                      & 25.271637                                      & 42.119828                                      \\
+        o & 18.677310                                      & 49.561131                                      & 25.601245                                      & 41.835916                                      \\
+        s & 18.091288                                      & 49.016488                                      & 25.071460                                      & 41.754973                                      \\
+        h & 18.834070                                      & 49.400556                                      & 25.388027                                      & 42.050850                                      \\
+        r & 18.363419                                      & 49.357328                                      & 25.414512                                      & 42.204460                                      \\
+        d & 18.216396                                      & 49.150334                                      & 25.202644                                      & 42.070277                                      \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Marginal Probabilities}
+
+\begin{table}[H]
+    \caption{Marginal Probabilities}
+    \centering
+    \begin{tabular}{c*{4}{@{}S}}
+        \toprule
+             & \multicolumn{4}{c}{Sequence}                                              \\
+        \cmidrule(l){2-5}
+        char & 0                            & 1            & 2            & 3            \\
+        \midrule
+        e    & 7.222682e-12                 & 1.265837e-05 & 1.132138e-12 & 8.868280e-09 \\
+        t    & 9.995246e-01                 & 1.724732e-01 & 2.294512e-08 & 9.999999e-01 \\
+        a    & 2.626167e-11                 & 2.731367e-03 & 9.994589e-01 & 2.135660e-17 \\
+        i    & 4.727213e-04                 & 1.752834e-04 & 1.611855e-13 & 7.405429e-09 \\
+        n    & 7.155546e-11                 & 2.007356e-04 & 3.697567e-06 & 3.290041e-16 \\
+        o    & 2.113848e-09                 & 1.400475e-04 & 1.761094e-08 & 1.441003e-16 \\
+        s    & 3.295990e-09                 & 1.064607e-07 & 5.172143e-18 & 5.371092e-14 \\
+        h    & 4.349270e-11                 & 2.673529e-02 & 2.835253e-04 & 1.317807e-14 \\
+        r    & 2.628090e-06                 & 7.965951e-01 & 2.537649e-04 & 6.393979e-08 \\
+        d    & 1.069370e-11                 & 9.362852e-04 & 9.463773e-08 & 6.373628e-10 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Inference}
+
+\subsubsection{Marginal Pair Probabilities}
+
+\begin{table}[H]
+    \caption{Marginal Pair Probabilities}
+    \centering
+    \begin{tabular}{c*{3}{@{}S}}
+        \toprule
+        1 & t            & h            & a            \\
+        \cmidrule(l){2-4}
+        t & 1.723604e-01 & 2.672975e-02 & 2.730539e-03 \\
+        h & 1.590427e-11 & 5.389681e-13 & 7.200092e-14 \\
+        a & 7.465838e-12 & 3.308640e-13 & 2.785953e-14 \\
+        \midrule
+        2 & t            & h            & a            \\
+        \cmidrule(l){2-4}
+        t & 2.231417e-09 & 0.000066 & 0.172371 \\
+        h & 1.210440e-09 & 0.000008 & 0.026720 \\
+        a & 1.499698e-10 & 0.000001 & 0.002729 \\
+        \midrule
+        3 & t            & h            & a            \\
+        \cmidrule(l){2-4}
+        t & 2.294512e-08 & 1.058097e-21 & 2.079552e-24 \\
+        h & 2.835253e-04 & 2.857058e-18 & 7.343193e-21 \\
+        a & 9.994588e-01 & 1.317085e-14 & 2.133678e-17 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Predictions}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+    \toprule
+    Actual & Predicted \\ 
+    \midrule
+    that   & trat      \\
+    hire   & hire      \\
+    rises  & riser     \\
+    edison & edison    \\
+    shore  & shore     \\ 
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsubsection{Character-level accuracy}
+
+\textbf{Accuracy}: \texttt{0.8991}
+
+\clearpage
+\section{Maximum Likelihood Learning Derivation}
+
+\subsection{Average Log likelihood}
+
+$P_W (y, x) = \frac{1}{Z(W)} \exp \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j f}^F x_{jf} + \suml{j=1}{L_i - 1} W_{y_j y_{j + 1}}^T \right)$
+
+The average log likelihood is given by,
+
+\begin{equation}
+    \begin{aligned}
+        \frac{1}{N} \suml{i=1}{N} \log P_W(y^{(i)}, x^{(i)}) &= \frac{1}{N} \suml{i=1}{N}  \log \left( \frac{1}{Z(W, x^{(i)})} \exp \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T - \log Z(W, x^{(i)}) \right) \\
+    \end{aligned}
+\end{equation}
+
+\subsection{Derivative of Log Likelihood w.r.t $W_{cf}^F$}
+
+Let the average likelihood be defined as,
+
+\begin{equation}
+    \mathcal{L} = \frac{1}{N} \suml{i=1}{N} \log P_W(y^{(i)}, x^{(i)})
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        \derivative{\mathcal{L}}{W_{c'f'}} &= \derivative{}{W_{c'f'}} \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T - \log Z(W, x^{(i)}) \right) \\
+        & \text{Taking derivative inside the summations} \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F} \derivative{}{W_{c'f'}} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} \derivative{}{W_{c'f'}} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T - \derivative{}{W_{c'f'}} \log Z(W, x^{(i)}) \right) \\
+        & \text{Since, $W^T$ is constant w.r.t $W^F$, it is 0} \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F}\mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} - \frac{1}{Z(W, x)} \derivative{}{W_{c'f'}} \suml{\mathbf{y}}{} \exp \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T \right) \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F}\mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} \right. \\ & \;\; - \left. \frac{1}{Z(W, x)} \suml{\mathbf{y}}{} \exp \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T \right) \mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F}\mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} - \suml{\mathbf{y}}{} P(\mathbf{y} | \mathbf{x}) \mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F}\mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} - \mathbb{E}_{P(y|x)} \left[ \mathbb{I}[y_j^{(i)} = c', f = f'] x_{jf}^{(i)} \right] \right) \\
+    \end{aligned}
+\end{equation}
+
+\subsection{Derivative of Log Likelihood w.r.t $W_{cc'}^T$}
+
+\begin{equation}
+    \begin{aligned}
+        \derivative{\mathcal{L}}{W_{cc'}} &= \derivative{}{W_{cc'}} \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T - \log Z(W, x^{(i)}) \right) \\
+        & \text{Taking derivative inside the summation} \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i} \suml{f=1}{F} \derivative{}{W_{cc'}} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} \derivative{}{W_{cc'}} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T - \derivative{}{W_{cc'}} \log Z(W, x^{(i)}) \right) \\
+        & \text{Since $W^F$ is constant w.r.t $W^T$}, \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i - 1} \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] - \frac{1}{Z(W, x)} \derivative{}{W_{cc'}} \suml{\mathbf{y}}{} \exp \left( \suml{j=1}{L_i} \suml{f=1}{F} W_{y_j^{(i)} f}^F x_{jf}^{(i)} + \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T \right) \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i - 1} \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] - \frac{1}{Z(W, x)} \suml{\mathbf{y}}{} \exp \left( \suml{j=1}{L_i - 1} W_{y_j^{(i)} y_{j + 1}^{(i)}}^T \right) \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i - 1} \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] - \suml{\mathbf{y}}{} P(\mathbf{y} | \mathbf{x}) \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] \right) \\
+        &= \frac{1}{N} \suml{i=1}{N} \left( \suml{j=1}{L_i - 1} \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] - \mathbb{E}_{P(y | x)} \left[ \mathbb{I}[y_j^{(i)} = c, y_{j+1}^{(i)} = c'] \right] \right) \\
+    \end{aligned}
+\end{equation}
+
+\subsection{Using Sum-Product in likelihood}
+
+The Sum-Product method allows to compute the overall potential of a configuration. This potential is equivalent to the unnormalized probability. Formally, $P(\mathbf{y}, \mathbf{x}) \propto \prod\limits_{j=1}^{L} \phi^F(y_j, x_j) \prod\limits_{j=1}^{L-1} \phi^T (y_j, y_{j+1})$. From the sum-product method, we can re-write this as,
+
+\begin{equation}
+    P(\mathbf{y}, \mathbf{x}) \propto \suml{y_1}{} \phi^F (y_1, x_1) \mathbf{m}_{2 \rightarrow 1}(y_1)
+\end{equation}
+
+The message $\mathbf{m}_{2 \rightarrow 1} (y_1)$, encodes the "happiness" of the sequence $\in (2, 3, ...)$.
+We can use this to calculate the log-partition function efficiently.
+
+Now, while computing the single and pair-wise marginal probabilities, we multiply the forward ($\mathbf{m}_{i \rightarrow i+1}$) and backward messages ($\mathbf{m}_{i \rightarrow i-1}$) along with the feature potentials to obtain the single/marginal probabilities. Lastly, we obtain a distribution over the sequence length, which we can normalize over to get the \textit{likelihood} of the sequence. Using the previous result, we can obtain an average log likelihood over $N$ datapoints.
+
+Similarly, to compute the derivatives, the conditional probability $P(y | x)$, can be expressed in terms of single and marginal probabilities. We can use the already pre-computed marginals to efficiently compute $P(y|x)$ 
+
+\subsection{Training Average Log Likelihood}
+
+\texttt{Average likelihood} of 50 train words: \texttt{-4.583959}
+
+\clearpage
+\section{Numerical Optimization Warm-Up}
+
+\subsection{Derivative of $f(x, y)$}
+
+\begin{math}
+    \begin{aligned}
+        f_w(x, y)              & = -(1-x)^2 - 100(y - x^2)^2                                       \\
+        \derivative{f(x,y)}{x} & = - \derivative{}{x} (1 - x)^2 - 100 \derivative{}{x} (y - x^2)^2 \\
+                               & = -2(1 - x)(-1) + 200 (y - x^2) \derivative{}{x} x^2              \\
+                               & = 2(1-x) + 400x(y-x^2)                                            \\
+        \derivative{f(x,y)}{y} & = - \derivative{}{y} (1 - x)^2 - 100 \derivative{}{y} (y - x^2)^2 \\
+                               & = 0 - 200 (y - x^2) \derivative{}{y} y                            \\
+                               & = -200(y - x^2)
+    \end{aligned}
+\end{math}
+
+\subsection{Numerical Optimizer}
+
+I used the \texttt{scipy.optimize.minimize} using the L-BFGS-B solver.
+
+\textbf{Maximum location}: \texttt{x = 1., y = 0.99999999} \\
+\textbf{Maximum value}: \texttt{2.6436083956216185e-17}
+
+\end{document}
