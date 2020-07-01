@@ -1,0 +1,207 @@
+%% LyX 2.2.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+
+\oddsidemargin=0in
+\evensidemargin=0in
+\textwidth=6.3in
+\topmargin=-0.5in
+\textheight=9in
+
+\parindent=0in
+%\pagestyle{empty}
+
+\input{testpoints}
+
+\usepackage[english]{babel}
+\usepackage{times}
+\usepackage{subfigure}
+
+
+\newcommand{\argmax}{\mathop{\arg\max}}
+\newcommand{\deriv}[1]{\frac{\partial}{\partial {#1}} }
+\newcommand{\dsep}{\mbox{dsep}}
+\newcommand{\Pa}{\mathop{Pa}}
+\newcommand{\ND}{\mbox{ND}}
+\newcommand{\De}{\mbox{De}}
+\newcommand{\Ch}{\mbox{Ch}}
+\newcommand{\graphG}{{\mathcal{G}}}
+\newcommand{\graphH}{{\mathcal{H}}}
+\newcommand{\setA}{\mathcal{A}}
+\newcommand{\setB}{\mathcal{B}}
+\newcommand{\setS}{\mathcal{S}}
+\newcommand{\setV}{\mathcal{V}}
+\DeclareMathOperator*{\union}{\bigcup}
+\DeclareMathOperator*{\intersection}{\bigcap}
+\DeclareMathOperator*{\Val}{Val}
+\newcommand{\mbf}[1]{{\mathbf{#1}}}
+\newcommand{\eq}{\!=\!}
+
+\newcommand{\discrete}{stripes}
+\newcommand{\gaussian}{swirl}
+
+\newcommand{\update}[1]{\textcolor{blue}{[#1]}}
+
+
+\usepackage{ascii}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+{\centering
+	\rule{6.3in}{2pt}
+	\vspace{1em}
+	{\Large
+		CS688: Graphical Models - Spring 2020\\
+		Assignment 5\\
+	}
+	\vspace{1em}
+	Assigned: Wed, Apr 21st. Due: Mon, May 1st, 17:00pm. \\
+	\vspace{0.1em}
+	\rule{6.3in}{1.5pt}
+}\vspace{1em}
+
+\textbf{General Instructions:} Submit a report with the answers to
+each question at the start of class on the date the assignment is
+due. You are encouraged to \emph{typeset your solutions}. To help
+you get started, the full \LaTeX{}source of the assignment is included
+with the assignment materials. For your assignment to be considered
+``on time'', you must upload a zip file containing all of your code
+to Moodle by the due date. Make sure the code is sufficiently well
+documented that it's easy to tell what it's doing. You may use any
+programming language you like. For this assignment, you \textbf{may}
+\textbf{not} use existing code libraries for sampling or classification,
+but you \textbf{may} (and are encouraged to) use a library for automatic
+differentiation. If you think you've found a bug with the data or
+an error in any of the assignment materials, please post a question
+to the Piazza discussion forum. Make sure to list in your report any
+outside references you consulted (books, articles, web pages, etc.)
+and any students you collaborated with.\\
+
+\textbf{Academic Honesty Statement:} Copying solutions from external
+sources (books, web pages, etc.) or other students is considered cheating.
+Sharing your solutions with other students is also considered cheating.
+Any detected cheating will result in a grade of -100\% on the assignment
+for all students involved, and potentially a grade of F in the course.\\
+
+\textbf{Introduction:} In this assignment, you will experiment with
+Bayesian inference and Stochastic Gradient Variational
+Inference. Specifically, you will implement Bayesian logistic regression
+with stochastic gradient variational inference.\\
+
+\textbf{Logistic Regression:} Consider a logistic conditional distribution
+over $y\in\{-1,+1\}$ given $x\in\mathbb{R}^{D}$ and a vector of
+parameters $z\in\mathbb{R}^{D}$
+
+\[
+p(y|x,z)=\begin{cases}
+\sigma\left(z^{T}x\right) & y=1\\
+1-\sigma\left(z^{T}x\right) & y=-1
+\end{cases}
+\]
+for $\sigma(s)=1/(1+\exp(-s)).$ Or, equivalently, $p(y|x,z)=\sigma(yz^{T}x).$\\
+\\
+\textbf{Prior Distribution}: For your prior on $z$ please use a standard
+Normal distribution, with $p(z)\propto\exp\left(-\frac{1}{2}\Vert z\Vert^{2}\right)$\\
+
+\textbf{Data}: You are given a dataset of 100 training inputs (\texttt{X\_train.csv})
+and outputs (\texttt{Y\_train.csv}) and 1000 test inputs (\texttt{X\_train.csv})
+and outputs (\texttt{Y\_train.csv}). Each vector $x$ has 5 dimensions.
+(There is also data \texttt{X\_forextracreditonly.csv} and \texttt{Y\_forextracreditonly.csv}
+but as the names imply these should be completely ignored unless you
+are doing the extra credit problems.) \\
+
+\begin{problem}{10} \textbf{Derivation of likelihood} Mathematically
+derive an expression for $\log p(y|x,z)$. Write your answer using
+the function $\text{lae}(s,t)=\log(\exp(s)+\exp(t)).$ Simplify your
+answer as much as possible.
+\end{problem} \\
+
+\begin{problem}{10} \textbf{Derivation of gradient} First, mathematically
+derive the derivative of $\text{lae}(s,t)$ with respect to $t$.
+Next, derive the gradient of $\log p(y|x,z)$ with respect to $z$,
+$\nabla\log p(y|x,z).$
+\end{problem} \\
+
+\begin{problem}{10} \textbf{Pseudocode for Stochastic gradient
+variational inference (SGVI)} Use as a variational distribution a
+Gaussian distribution with a mean of $w \in R^D$ and a fixed covariance
+$\Sigma=0.5I$. Write pseudocode to approximately compute $\int_{z}q_{w}(z)\log p(z,\text{Data}),$
+where the integral over $z$ is approximated by drawing a single samples
+from $z$. Since the covariance is fixed, $q_w$ has a fixed entropy, and so this part
+of the ELBO can be ignored. Also give pseudocode
+to compute the gradient of your approximation with respect to $w$.
+\end{problem} 
+
+\begin{problem}{10} \textbf{Implement SGVI} Implement SGVI using
+a fixed step size of $\epsilon=.005$ for a number of iterations $t_{\max}=10000$.
+Make a plot of the weights evolving over time and show them as a plot
+with five lines, one for each dimension of $w$.
+\end{problem}
+
+\begin{problem}{20} \textbf{Direct predictive accuracy for SGVI}
+Given a set of samples $z_{1},...,z_{\text{t}_{\max}}$
+from the posterior $p(z|\text{Data})$, give a mathematical equation
+approximating the probability that $y=+1$ for a new test input $x$.
+Write a function that takes as input a set of samples $z$ along with
+a test set of inputs $x$ and computes the probability that each corresponding
+output is $+1$.
+
+Run SGVI five times for each number of iterations $t_{\max}\in\{10,100,1000,10000\}$.
+After inference is complete, take the final value of $w$, and draw
+$1000$ samples $z$ from the final variational
+approximation $q_{w}(z)$ and use that set of $z$ to evaluate on test data\footnote{To be clear: SGVI does an optimization over $w$. But once we are
+done, we take the final $w$ and draw a set of 1000 vectors $z$.
+Then $w$ can be discarded, and these $z$ can be used to compute
+predictions.}. Give a $4\times5$ table with all the error rates (four different time horizons and five
+different repetitions). Make sure to label the axes of your table.
+\end{problem}\\
+
+\textbf{Extra Credit:} Finally, here are some extra-credit problems.
+These are \emph{far} more difficult than the above problems and have
+very small point values. These are also deliberately more open-ended,
+leaving you more space for creativity. As a result, you will need
+to carefully describe exactly what you did for each problem. To maximize
+your score with limited time, you should make sure the above problems
+are done thoroughly and ignore these. We will be very stingy in giving
+credit for these problems-{}- do them only for the glory, and only
+at your own risk!
+
+\begin{problem}{5} \textbf{Step Sizes and Run Lengths for SGVI
+Dynamics}
+
+SGVI is based on stochastic gradient descent, and so finds
+the optimum only in the $\epsilon\rightarrow0$ limit (even ignoring
+local optima). However, a smaller step-size requires a longer run-length.
+Systematically experiment with different step-sizes and different
+run lengths. Make a graph of the average performance over time of
+different step-sizes $\epsilon$ with time on the x-axes. Carefully
+describe what you have done, and explain what your results seem to
+suggest.
+\end{problem}
+
+\begin{problem}{5} \textbf{Minibatches for SGVI}
+	
+The above problems all involved computing $\nabla\log p(z|\text{Data})$ by summing the
+likelihood over the full dataset. However, it is possible to instead
+get an unbiased estimator of the gradient $\nabla\log p(z|\text{Data})$
+by sampling from a small subset of the data. The \texttt{\{X,Y\}\_forextracreditonly.csv}
+files contain a larger training set of 1000 points. For a fixed time
+horizon of $t_{\max}=10000$ iterations, experiment with SGVI with
+different minibatch sizes and different step sizes. Make a graph comparing
+the test-set performance with several other choices of minibatch sizes
+and step sizes. Make sure to compare to using all 1000 points in the
+minibatch.
+\end{problem}
+\end{document}

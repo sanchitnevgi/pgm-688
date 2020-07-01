@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage[left=10mm,right=10mm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{siunitx}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption}
+
+\microtypecontext{spacing=nonfrench}
+
+\graphicspath{ {./images/} }
+
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 3, % to 2 places
+}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\rhead{\thepage}
+\lhead{Assignment 3}
+
+\begin{document}
+\title{\textbf{\huge{Title}}}
+
+\date{\today}
+\author{Sanchit Nevgi}
+
+\section{Training Time}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./images/a3_1.png}
+    \caption{Training Time}
+\end{figure}
+
+\section{Prediction Error rate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./images/a3_2.png}
+    \caption{Prediction error rate}
+\end{figure}
+
+\section{Average conditional log likelihood}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./images/a3_3.png}
+    \caption{Prediction error rate}
+\end{figure}
+
+\end{document}
